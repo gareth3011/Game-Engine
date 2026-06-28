@@ -4,12 +4,8 @@
 			sei											// Disable Interrupts
 			disableTimerInterrupts()					// Disable CIA timer interrupts
 
-			lda VIC._IRQMSK
-			ora #_BIT_0                     			// Set the raster as the interrupt source
-			sta VIC._IRQMSK
-
-			lda #$1B                  					// Raster bit 8 = 0, screen on, 25 rows, y-scroll = 3
-			sta VIC._SCROLY
+			enableRasterInterrupt()						// Enable VIC raster as interrupt source
+			clearRasterBit8()							// Ensure raster targets lines 0-255 (bit 8 = 0)
 
 			VICSetup(_IO_VISIBLE, _RAM_01, _VIC_BANK_3, VIC._SCREEN_RAM, _CHARACTER_DATA)
 

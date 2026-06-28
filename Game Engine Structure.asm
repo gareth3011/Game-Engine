@@ -8,11 +8,8 @@
 
 	*=* "Engine Loop"
     EngineLoop: {
-			lda #$00
-			sta ZP.Counter + 0
-			sta ZP.Counter + 1
-			sta ZP.FrameFlag
-			sta VIC._BACKGROUND
+			resetCounters()								// Zero frame counter and frame flag
+			sta VIC._BACKGROUND							// A = 0 from resetCounters — clear background and border
 			sta VIC._BORDER
 
     	!engineLoop:

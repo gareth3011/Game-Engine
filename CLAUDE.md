@@ -209,6 +209,22 @@ Check `C_ZP.asm` before adding anything. List address conflicts rather than auto
 
 ---
 
+## Macro Policy
+
+Always prefer a macro over inline code when either condition is true:
+
+1. **Reuse** — the same instruction sequence appears (or will appear) in more than one place.
+2. **Readability** — a named macro expresses *intent* more clearly than the raw instructions, even if used only once (e.g. `enableRasterInterrupt()` vs three lines of register manipulation).
+
+When writing new code, check the active macro set in the table above before writing inline instructions. If no macro exists and the pattern is likely to recur, add one to the appropriate `Library/Macros/M_*.asm` file.
+
+When creating a macro:
+- Name it in `camelCase`, verbs first (`enableRasterInterrupt`, `clearRasterBit8`, `resetCounters`)
+- Put it in the file that owns its domain (`M_IRQ.asm` for IRQ setup, `M_General.asm` for timing/counters, `M_Environment.asm` for VIC/memory config, etc.)
+- A macro that wraps a single instruction is never worth creating — only add one when it saves lines *and* names a concept
+
+---
+
 ## Cycle-Critical Rules
 
 - Prefer cycle-optimal implementations when ≤30% extra bytes

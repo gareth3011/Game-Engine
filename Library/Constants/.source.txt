@@ -1,53 +1,83 @@
-.namespace ZP  {
+.namespace ZP {
     .pc = $02 "Zero Page" virtual
 
-// ++++ TEMP PARAMETERS (single-function temporaries only — never persist across calls) --------
-    Temp0:                  .byte $00   // $02
-    Temp1:                  .byte $00   // $03
-    Temp2:                  .byte $00   // $04
-    Temp3:                  .byte $00   // $05
-    TempA:                  .byte $00   // $06
-    TempX:                  .byte $00   // $07
-    TempY:                  .byte $00   // $08
+// ============================================================================
+// ENGINE ZERO PAGE  $02-$43
+// Layout matches c64_engine_spec.md Section 2.1 exactly.
+// Do not move or insert here without updating the spec.
+// ============================================================================
 
-// ++++ TEMP VECTORS (16-bit scratch pointers, single-function only) ---------------------------
-    Vector1:                .word $0000 // $09-$0A
-    Vector2:                .word $0000 // $0B-$0C
-    Vector3:                .word $0000 // $0D-$0E
-    Vector4:                .word $0000 // $0F-$10
+// ++++ MAP SYSTEM (Phase 4) ---------------------------------------------------
+    MapPtr:         .word $0000     // $02-$03  Map ring buffer pointer
 
-// ++++ SCREEN ----------------------------------------------------------------------------------
-    ColourVector:           .word $0000 // $11-$12
-    ScreenVector:           .word $0000 // $13-$14
+// ++++ OBJECT SYSTEM (Phase 5) ------------------------------------------------
+    ObjPtr:         .word $0000     // $04-$05  Active object data pointer
 
-// ++++ COUNTERS & FLAGS ------------------------------------------------------------------------
-    BitCounter1:            .byte $80   // $15
-    Counter:                .byte $00,$00 // $16-$17 — frame counter (MSB at $16, LSB at $17)
-    FrameFlag:              .byte $00   // $18 — set by IRQ, consumed by main loop
+// ++++ GENERAL SCRATCH (engine-wide) ------------------------------------------
+    Scratch:        .word $0000     // $06-$07  General-purpose scratch pointer
+                                    //          Save/restore if used across calls
 
-// ++++ RESERVED GAP ($19-$1F) — available for future engine use --------------------------------
-    .fill 7, 0                          // $19-$1F
+// ++++ SCROLL ENGINE / CAMERA (Phase 3) ---------------------------------------
+    CamXHi:         .byte $00       // $08      Camera world block X
+    CamXLo:         .byte $00       // $09      Camera sub-block X (fixed point)
+    CamYHi:         .byte $00       // $0A      Camera world block Y
+    CamYLo:         .byte $00       // $0B      Camera sub-block Y (fixed point)
+    FineX:          .byte $00       // $0C      Hardware fine scroll X (0-7 → $D016 bits 0-2)
+    FineY:          .byte $00       // $0D      Hardware fine scroll Y (0-7 → $D011 bits 0-2)
+    ScrollFlags:    .byte $00       // $0E      Scroll direction (bit0=R, bit1=L, bit2=D, bit3=U)
+    ShiftPhase:     .byte $00       // $0F      Coarse shift phase (0=first half, 1=second half)
 
-// ++++ SPRITE MULTIPLEXER (Phase 2) -----------------------------------------------------------
-// Spec Section 2.1: $10-$1F logical sprite X, $20-$2F logical sprite Y
-// We use $20-$2F (X) and $30-$3F (Y) to avoid the $10-$1F overlap with temporaries above.
-// NOTE: If the spec's exact addresses are required for a Phase 3+ feature, revisit this layout.
-    SpriteX:                .fill 16, 0 // $20-$2F — logical sprite X positions (16 slots)
-    SpriteY:                .fill 16, 0 // $30-$3F — logical sprite Y positions (16 slots)
+// ++++ SPRITE MULTIPLEXER (Phase 2) -------------------------------------------
+    SpriteX:        .fill _MAX_SPRITES, 0  // $10-$1F  Logical sprite X positions
+    SpriteY:        .fill _MAX_SPRITES, 0  // $20-$2F  Logical sprite Y positions
 
-// ++++ SCROLL ENGINE (Phase 3) — reserved, not yet implemented ---------------------------------
-    CamXHi:                 .byte $00   // $40 — camera world block X
-    CamXLo:                 .byte $00   // $41 — camera sub-block X
-    CamYHi:                 .byte $00   // $42 — camera world block Y
-    CamYLo:                 .byte $00   // $43 — camera sub-block Y
-    FineX:                  .byte $00   // $44 — VIC fine scroll X (0-7, written to $D016 bits 0-2)
-    FineY:                  .byte $00   // $45 — VIC fine scroll Y (0-7, written to $D011 bits 0-2)
-    ScrollFlags:            .byte $00   // $46 — direction bits (bit0=R, bit1=L, bit2=D, bit3=U)
-    ShiftPhase:             .byte $00   // $47 — coarse shift phase (0=first half, 1=second half)
+// ++++ MULTIPLEXER SORT (Phase 2) ---------------------------------------------
+    MuxSort:        .byte $00       // $30      Multiplex insertion-sort temporary
 
-// ++++ NTSC FLAG (Phase 8) --------------------------------------------------------------------
-    NTSCFlag:               .byte $00   // $48 — 0 = PAL, 1 = NTSC (detected at startup)
+// ++++ TIMING & SYSTEM --------------------------------------------------------
+    FrameCount:     .byte $00       // $31      Frame counter 0-255 (wraps — used by mux timing)
+    NTSCFlag:       .byte $00       // $32      0 = PAL, 1 = NTSC (detected at startup, Phase 8)
 
-// ++++ $49-$FF — game-specific zero page (allocate here as needed) ----------------------------
+// ++++ GAME / ENGINE RESERVED  $33-$3F ----------------------------------------
+    FrameFlag:      .byte $00       // $33      Set by IRQ each frame, consumed by main loop
+    Counter:        .byte $00,$00   // $34-$35  16-bit extended frame counter (MSB, LSB)
+                                    //          Byte 0 (MSB): ~5 sec per tick at 50fps
+                                    //          Byte 1 (LSB): incremented every frame
+    .fill 10, 0                     // $36-$3F  Reserved — game-specific engine expansion
+
+// ++++ FLD / PARALLAX (Phase 3 future — do not use before then) ---------------
+    FLDOffsetCur:   .byte $00       // $40      FLD parallax offset current
+    FLDOffsetTgt:   .byte $00       // $41      FLD parallax offset target
+    FLDScrollRate:  .byte $00       // $42      FLD scroll rate fraction
+    FLDFlags:       .byte $00       // $43      FLD state flags
+
+// ============================================================================
+// GAME-SPECIFIC ZERO PAGE  $44+
+// Allocate new game variables here. Document each addition with its address.
+// ============================================================================
+
+// ++++ TEMPORARIES (single-function only — must not persist across calls) -----
+    Temp0:          .byte $00       // $44
+    Temp1:          .byte $00       // $45
+    Temp2:          .byte $00       // $46
+    Temp3:          .byte $00       // $47
+    TempA:          .byte $00       // $48      Save slot for accumulator
+    TempX:          .byte $00       // $49      Save slot for X register
+    TempY:          .byte $00       // $4A      Save slot for Y register
+
+// ++++ GENERAL 16-BIT POINTERS (single-function only) ------------------------
+    Vector1:        .word $0000     // $4B-$4C
+    Vector2:        .word $0000     // $4D-$4E
+    Vector3:        .word $0000     // $4F-$50
+    Vector4:        .word $0000     // $51-$52
+
+// ++++ SCREEN POINTERS --------------------------------------------------------
+    ColourVector:   .word $0000     // $53-$54  Points into colour RAM ($D800)
+    ScreenVector:   .word $0000     // $55-$56  Points into screen RAM ($C000)
+
+// ++++ BIT COUNTERS -----------------------------------------------------------
+    BitCounter1:    .byte $80       // $57      Rolling bit counter (ror to cycle through bits)
+
+// $58-$FF available for game-specific allocation
 
 }

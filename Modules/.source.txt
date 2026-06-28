@@ -1,36 +1,33 @@
-ANIMATIONS: {
-        ScreenShakeIndex:
-                .byte $00               // 0 = no screen shake, any other value is number of frames to shake for. (#16 is good)
-        ScreenShakeV:
-                .byte $03               // First byte is default value
-                .fill 7, floor(random() * 4) + 1
-        ScreenShakeH:
-                .byte $00
-                .fill 7, floor(random() * 4)
+.namespace IRQ {
+	.pc = * "IRQ Initialise"
+    Initialise: {
+			sei											// Disable Interrupts
+			disableTimerInterrupts()					// Disable CIA timer interrupts
 
-        Shake: {
-                
-                // Screen Shake
-                // Acc = No of frames to run the shake for.
-                // eg envoke with lda #16, sta IRQ.ScreenShakeIndex
-                lda ScreenShakeIndex              
-                beq !+
-                sec
-                sbc #$01
-                sta ScreenShakeIndex
-                and #$07
-                tax
-                lda VIC._SCROLY
-                and #%11111000
-                ora ScreenShakeV,x
-                sta VIC._SCROLY
-                lda VIC._SCROLX
-                and #%11111000
-                ora ScreenShakeH,x
-                sta VIC._SCROLX
-        !:
-                rts
-        }
+			enableRasterInterrupt()						// Enable VIC raster as interrupt source
+			clearRasterBit8()							// Ensure raster targets lines 0-255 (bit 8 = 0)
+
+			VICSetup(_IO_VISIBLE, _RAM_01, _VIC_BANK_3, VIC._SCREEN_RAM, _CHARACTER_DATA)
+
+			setIRQ #_IRQ_1_RASTER : #<IRQ.IRQ1 : #>IRQ.IRQ1	// Set raster line and IRQ address
+
+			cli                             			// Enable interrupts
+			rts
+    }
+
+	.pc = * "IRQ 1"
+    IRQ1: {
+			enterIRQ()
+
+			debugStart("IRQ1", CYAN)
+
+			inc ZP.FrameFlag							// Set the frame flag
+
+			debugEnd()
+
+			exitIRQ()
+			rti                             			// Return
+    }
 
 
 }
