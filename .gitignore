@@ -1,0 +1,9 @@
+# KickAssembler build outputs — regenerated on every compile
+*.prg
+*.sym
+*.dbg
+*.vs
+
+# KickAssembler extension diagnostics cache — generated per-build
+.asminfo.txt
+**/.asminfo.txt

@@ -1,0 +1,40 @@
+NAMING CONVENTIONS
+Camel Case: 				"camelCase"
+Snake:						"snake_case"
+Kebab:						"kebab-case"
+Pascal case:				"PascalCase"
+Upper case:					"_UPPERCASE" or "UPPERCASE"
+
+
+GLOBAL
+Constants:					_UPPERCASE
+Labels:						_UPPERCASE
+Zero Page addresses:		PascalCase
+
+FUNCTIONS:
+Name Space					UPPERCASE
+Scope						PascalCase
+Multilabels					!camelCase
+Scope Labels				camelCase
+Constants:					_name_Of_Constant
+Labels						camelCase
+Data addresses				camelCase or camel_Case
+SelfMod						_camel_Case
+
+MACROS:
+Macros/pseudocommands Name:	camel_Case
+Vaiables					camelCase
+
+example: NAMESPACE.Scope.nameOfLabel
+
+
+Constants
+Everything should always be .const unless it can't be.
+
+Comments:
+If you have to comment code, then the code needs re-writing!
+
+Function parameters.
+Have a no in/out policy.
+All paramters to a function should either be inpur or output and never both.
+This makes it easier to understand what is happening with a variable when you pass it to a function.

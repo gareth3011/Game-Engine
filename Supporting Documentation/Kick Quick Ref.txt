@@ -1,0 +1,150 @@
+***********************************************************************************************************
+NUMERIC VALUES:
+Name			Operator	Examples				Description
+Unary minus		-	 					        	Inverts the sign of a number.
+Plus			+			10+2 = 12			    Adds two numbers.
+Minus			-			10-8=2			        Subtracts two numbers.
+Multiply		*			2*3 =6			        Multiply two numbers.
+Divide		    /			10/2 = 5			    Divides two numbers.
+High byte		>			>$1020 = $10		    Returns the second byte of a number.
+Low byte		<			<$1020 = $20		    Returns the first byte of a number.
+Bitshift left	<<			2<<2 = 8			    Shifts the bits by a given number of spaces to the left.
+Bitshift right	>>			2>>1=1			        Shifts the bits by a given number of spaces to the right.
+Bitwise and		&			$3f & $0f = $f		    Performs bitwise and between two numbers.
+Bitwise or		|			$0f | $30 = $3f		    Performs a bitwise or between two numbers.
+Bitwise eor		^			$ff ^ $f0 = $0f		    Performs a bitwise exclusive or between two numbers.
+Bitwise not		~			~%11 = %...11111100	    Performs bitwise negation of the bits.
+
+***********************************************************************************************************
+MATH CONSTANTS
+PI = 3.141592653589793
+E  = 2.718281828459045 (Euler's Number)
+
+***********************************************************************************************************
+MATH FUNCTIONS:
+Function			Description
+abs(x)				Returns the absolute (positive) value of x.
+acos(x)				Returns the arc cosine of x.
+asin(x)				Returns the arc sine of x.
+atan(x)				Returns the arc tangent x
+atan2(y,x)			Returns the angle of the coordinate (x,y) relative to the positive x-axis. Useful when converting to polar coordinates.
+cbrt(x)				Returns the cube root of x.
+ceil(x)				Rounds up to the nearest integer.
+cos(r)				Returns the cosine of r.
+cosh(x)				Returns the hyperbolic cosine of r.
+exp(x)				Returns ex.
+expm1(x)			Returns ex-1.
+floor(x)			Rounds down to the nearest integer.
+hypot(a,b)			Returns sqrt(x2+y2).
+IEEEremainder(x,y)	Returns the remainder of the two numbers as described in the IEEE 754 standard.
+log(x)				Returns the natural logarithm of x.
+log10(x)			Returns the base 10 logarithm of x.
+log1p(x)			Returns log(x+1).
+max(x,y)			Returns the highest number of x and y.
+min(x,y)			Returns the smallest number of x and y.
+mod(a,b)			Converts a and b to integers and returns the remainder of a/b.
+pow(x,y)			Returns x raised to the power of y.
+random()			Returns a random number x where 0 ≤ x < 1.
+round(x)			Rounds x to the nearest integer.
+signum(x)			Returns 1 if x>0, -1 if x<0 and 0 if x=0.
+sin(r)				Returns the sine of r.
+sinh(x)				Returns the hyperbolic sine of x.
+sqrt(x)				Returns the square root of x.
+tan(r)				Returns the tangent of r.
+tanh(x)				Returns the hyperbolic tangent of x.
+toDegrees(r)		Converts a radian angle to degrees.
+toRadians(d)		Converts a degree angle to radians.
+
+Example:
+lda #random()*256	 // Load A with a random number between 0 and 255
+.fill 256,round(127.5+127.5*sin(toRadians(i*360/256)))  // Generate a sine curve
+
+***********************************************************************************************************
+BOOLEAN GENERATING FUNCTIONS:
+Name			Operator	Example		Description
+Equal			==			a==b		Returns true if a equals b, otherwise false.
+Not Equal		!=			a!=b		Returns true if a doesn't equal b, otherwise false.
+Greater			>			a>b			Returns true if a is greater than b, otherwise false.
+Less			<			a<b			Returns true if a is less than b, otherwise false.
+Greater than	>=			a>=b		Returns true if a is greater than or equal to b, otherwise false.
+Less than		<=			a<=b		Returns true if a is less or equal to b, otherwise false.
+
+Example:
+.var myBoolean1 = true          // Set the variable to true  
+.var myBoolean2 = false         // Set the variable to false
+.var fourHigherThanFive = 4>5   // Sets fourHigherThanFive = false
+.var aEqualsB = a==b            // Sets true if a is the same as b
+.var xNot10 = x!=10             // Sets true if x doesn’t equal 10
+
+***********************************************************************************************************
+BOOLEAN OPERATORS:
+Name		Operator	Example		Description
+Not			!			!a			Returns true if a is false, otherwise false.
+And			&&			a&&b		Returns true if a and b are true, otherwise false.
+Or			||			A||b		Returns true if a or b are true, otherwise false.
+
+Example:
+.var allTrue = 10HigherThan100 && aEqualsB // Is true if the two boolean arguments are true.
+
+***********************************************************************************************************
+DIRECTIVES:
+Directive		Example											Description
+*				*=$1000											Sets the memory position to a given value.
+.align			.align $100										Aligns the memory position with the given value.
+.assert			.assert "Test 1",2+2,4							Asserts that two expressions or codeblocks are equal.
+.asserterror	.asserterror "Test 2", List().get(27)			Asserts that a given expression or codeblock generates an error.
+.break			.break											Puts a breakpoint on the next generated bytes.
+.byte /.by		.byte $01,$02,$03								Outputs bytes.
+.const			.const DELAY=7									Defines a constant.
+.cpu			.cpu _65c02										Changes the instruction set to a different cpu.
+.define			.define width, height {...}						Executes a block of directives in 'functionmode' (faster) to define values.
+.disk			.disk [..disk pararamters..] {..fileparameters..}	Creates a d64 image file.
+.dword /.dw		.dword $12341234								Outputs doublewords (4 byte values).
+.encoding		.encoding "screencode_upper"					Sets the character encoding.
+.enum			.enum {on, off}									Defines a series of constants.
+.error			.error "not good!"								Creates an user raised error.
+.errorif		.errorif x>10 "not good!"						Creates an user raised error if condition is evaluated to true.
+.eval			.eval x=x+y/2									Evaluates a script expression.
+.file			.file [name="myfile.prg" segments="Code, Data"]	Creates a prg or bin file from the given segments.
+.filemodify		.filemodify Encrypt(33)							Modify the output of the current source file with the given modifier.
+.filenamespace	.filenamespace myspace							Creates a namespace for all the following directives in the current source file.
+.fill			.fill 10, i*2									Fills a number of bytes with the value of a given expression.
+.fillword		.fillword 10, i*$102							Fills a number of words with the value of a given expression.
+.for			.for(var i;i<10;i++) {...}						Creates a for loop.
+.function		.function area(h,w) {..}						Defines a function.
+.if				.if(x>10) {...}									Executes code if the given condition is true.
+.import binary	.import binary "Music.bin"						Imports a binary file.
+.import c64		.import c64 "Music.c64"							Imports a c64 files. Same as '.import binary', but ignores the two address bytes at the start of the file.
+.import source	.import source "MyLib.asm"						Imports another source file. (Depricated, use #import instead)
+.import text	.import text "scroll.txt"						Imports a text file.
+.importonce		.importonce										Make the assembler skip the current file if it has already been imported. (Depricated, use #importonce instead)
+.label			.label color=$d020								Assigns a given expression to a label.
+.lohifill		.lohifill $100, i*40							Fills two table with hi and lo byte of the given expression. Address of the tables can be read by connecting a label.
+.macro			.macro BasicUpstart() {...}						Defines a macro.
+.memblock		.memblock "New block"							Defines a new memoryblock at the current memoryposition.
+.modify			.modify Encrypt(27) {...}						Modifies the output of a codeblock using the given modifier.
+.namespace		.namespace myspace {..}							Creates a local namespace.
+.pc				.pc=$1000										Same as '*='
+.plugin			.plugin "plugins.macros.MyMacro"				Tells the assembler to look for a plugin at the given java-package path.
+.print			.print "Hello"									Prints a message to the console in the last pass.
+.printnow		.printnow "Hello now"							Prints a message to the console immediately.
+.pseudocommand	.pseudocommand mov src:tar {...}				Defines a pseudocommand.
+.pseudopc		.pseudopc $2000 {...}							Sets the program counter to something else than the actual memory position.
+.return			.return 27										Used inside functions to return a value.
+.segment		.segment Data "My Data"							Switches to another segment.
+.segmentdef		.segmentdef Data [start=$1000]					Defines a segment.
+.segmentout		.segmentout [segments="DRIVE_GAME_CODE"]				Output the bytes of an intermediate segment to the current memoryblock.
+.struct			.struct Point {x,y}								Creates a user defined structure.
+.text /.te		.text "hello"									Dumps text bytes to memory.
+.var			.var x=27										Defines a variable.
+.while			.while(i<10) {...}								Creates a while loop.
+.word /.wo		.word $1000,$1012								Outputs words (two bytes values),
+.zp				.zp { label: .byte 0 ... }						Marks unresolved labels as being in the zeropage.
+
+.var x = 0
+.eval x++   // Gives x=x+1
+.eval x--   // Gives x=x-1
+.eval x+=3  // Gives x=x+3
+.eval x-=7  // Gives x=x-7
+.eval x*=3  // Gives x=x*3
+.eval x/=2  // Gives x=x/2

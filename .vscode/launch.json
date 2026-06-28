@@ -1,0 +1,17 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run VICE 64 (Game Entry.prg)",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "\"D:/Development/C64/Utilities/Vice/bin/x64sc.exe\" -autostart \"${workspaceFolder}/Game Entry.prg\""
+    },
+    {
+      "name": "Run C64 Debugger",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "\"D:/Development/C64/Utilities/C64 Debugger/C64Debugger.exe\" \"${workspaceFolder}/Game Entry.prg\""
+    }
+  ]
+}

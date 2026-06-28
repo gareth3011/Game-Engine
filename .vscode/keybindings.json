@@ -1,0 +1,12 @@
+[
+  {
+    "key": "f5",
+    "command": "workbench.action.tasks.runTask",
+    "args": "Run VICE 64 (Game Entry.prg)"
+  },
+  {
+    "key": "shift+f5",
+    "command": "workbench.action.tasks.runTask",
+    "args": "Run C64 Debugger"
+  }
+]

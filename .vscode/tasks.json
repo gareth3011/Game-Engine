@@ -1,0 +1,30 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Run VICE 64 (Game Entry.prg)",
+      "type": "shell",
+      "command": "\"D:/Development/C64/Utilities/Vice/bin/x64sc.exe\"",
+      "args": [
+        "-autostart",
+        "${workspaceFolder}/Game Entry.prg"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Run C64 Debugger",
+      "type": "shell",
+      "command": "\"D:/Development/C64/Utilities/C64 Debugger/C64Debugger.exe\"",
+      "args": [
+        "${workspaceFolder}/Game Entry.prg"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "problemMatcher": []
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+COMM   STATUS    OPERATION
+       NVBDIZC
+ADC    **---**   Add a value to accu (a number or from memory) + C flag
+AND    *----*-   Make a logical AND operation with accu and a value.
+                 Gives a result in accu.
+ASL    *----**   Moves all bits in accu or memory to the left by 1,
+                 (multiples with 2). The highest bit moves to Carry flag.
+BCC    ------*   Jump if C flag=0
+BCS    ------*   Jump if C flag=1
+BEQ    -----*-   Jump if zero (Z flag=1)
+BIT    76---*-   AND operation with accu and memory. Result moves to Z flag.
+                 The contents of accu/mem doesn't change. The 7th bit will
+                 move to N flag and 6th bit to V flag from the memory register
+BMI    *------   Jump if negative (N flag=1)
+BNE    -----*-   Jump if not zero (Z flag=0)
+BPL    *------   Jump if positive (N flag=0)
+BRK    --1----   makes a break to execution (processor forced interrupt)
+BVC    -*-----   Jump if not overflow (V flag=0)
+BVS    -*-----   Jump if overflow (V flag=1)
+CLC    ------0   Clears the Carry flag (C=0)
+CLD    ---0---   Clears the Decimal flag (D=0)
+CLI    ----0--   Clears the interrupt flag (I=0)
+CLV    -0-----   Clears the overflow flag (V=0)
+CMP    *----**   Compares accu with value
+CPX    *----**   Compares X register with value
+CPY    *----**   Compares Y register with value
+DEC    *----*-   Decrease value in memory register by 1
+DEX    *----*-   Decrease value in X register by 1
+DEY    *----*-   Decrease value in Y register by 1
+EOR    *----*-   Makes a logical EOR with accu and value.
+                 Gives a result in accu.
+INC    *----*-   Increase value in memory register by 1
+INX    *----*-   Increase value in X register by 1
+INY    *----*-   Increase value in Y register by 1
+JMP    -------   Jump to memory address.
+JSR    -------   Jump to subroutine (subroutine must end with RTS command)
+LDA    *----*-   Load value to ACCU
+LDX    *----*-   Load value to X register
+LDY    *----*-   Load value to Y register
+LSR    0----**   Moves all bits in accu or memory to the right by 1,
+                 (divides with 2). The lowest bit moves to Carry flag.
+NOP    -------   Do nothing. (no operation)
+ORA    *----*-   Makes a logical OR command with accu and value. Gives a
+                 result in accu.
+PHA    -------   Push accu to stack.
+PHP    -------   Push status register to stack.
+PLA    *----*-   Pull accu value from stack.
+PLP    *******   Pull status register from stack.
+ROL    *----**   Rotates the bits in accu or mem to left by 1 via carry.
+ROR    *----**   Rotates the bits in accu or mem to right by 1 via carry.
+RTI    *******   Return from interrupt. pulls the old status register and
+                 program counter values from stack.
+RTS    -------   Return from subroutine (or back to basic)
+SBC    **---**   Subtract the value and (1-C flag) value from accu 
+SEC    ------1   Sets the C flag
+SEC    ---1---   Sets the D flag
+SEI    ----1--   Sets the I flag
+STA    -------   Sets the accu value to memory.
+STX    -------   Sets the X register value to memory.
+STY    -------   Sets the Y register value to memory.
+TAX    *----*-   Transfers the accu value to X register
+TAY    *----*-   Transfers the accu value to Y register
+TSX    *----*-   Transfers the stack pointer value to X register
+TXA    *----*-   Transfers the X register value to accu
+TXS              Transfers the X register value to stack pointer
+TYA    *----*-   Transfers the Y register value to accu
+-----------------------------------------------------------------
+NVBDIZC - row means the flags in the processor status register,
+if they are used and how the states are altered by the machine
+commands:
+N=Negative flag    (used on mathematics)
+V=Overflow flag    (used on mathematics)
+B=Break flag       (used on interrupt service routines)
+D=Decimal flag     (used on BCD mathematics)
+I=Interrupt flag   (used on interrupt service routines)
+Z=Zero flag        (used on mathematics and logical operations)
+C=Carry flag       (used on mathematics and logical operations)
+-----------------------------------------------------------------
+
