@@ -18,4 +18,4 @@ BasicUpstart2(Entry)
 	#import "Game Engine Structure.asm"						// Main Game loop
 
 * = $C000
-	#import "Assets/VIC Bank.asm"     					// Asset data
+	#import "Engine/VIC_Bank.asm"     					// Asset data

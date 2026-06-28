@@ -27,7 +27,7 @@
 			jmp !engineLoop-  
     }
 
-        #import "Modules/IRQ.asm"    					// Interrupt routine
+        #import "Engine/IRQ/IRQ_Init.asm"    			// Interrupt routine
         #import "Modules/Utils.asm"    					// Utils routines
 
 }

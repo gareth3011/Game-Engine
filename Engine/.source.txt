@@ -6,14 +6,14 @@
 
 * = $C800 "Sprite Frames 0-31"                 // $C800-$CFFF (2KB) 32 sprite frame slots × 64 bytes
         SPRITEDATA:
-        .import binary "Assets/Sprites/sprites.bin"
+        .import binary "Data/Sprites/sprites.bin"
 
                                                 // $D000-$DFFF  I/O BLIND SPOT — VIC reads $00 here
                                                 //              CPU uses normally for VIC/SID/CIA registers
 
 * = $E000 "Character Data A"                   // $E000-$E7FF (2KB) Charset A — world tileset
         CHARDATA:
-        .import binary "Assets/Characters/Chars.bin"
+        .import binary "Data/GFX/Charset/Chars.bin"
 
 * = $E800 "Character Data B"                   // $E800-$EFFF (2KB) Charset B — HUD/UI font (reserved)
 
