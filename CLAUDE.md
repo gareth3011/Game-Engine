@@ -165,14 +165,33 @@ Full path: `NAMESPACE.Scope.nameOfLabel`. Constants always `.const` unless impos
 
 ## Zero Page (C_ZP.asm)
 
-Key allocations:
-- `ZP.Temp0–3, TempA, TempX, TempY` — single-function temporaries only
-- `ZP.Vector1–4` — temporary 16-bit pointers
-- `ZP.ScreenVector / ColourVector` — screen/colour RAM pointers
-- `ZP.BitCounter1` — rolling bit counter
-- `ZP.Counter` (2 bytes) — frame counter, incremented every frame
-- `ZP.FrameFlag` — set by IRQ, consumed by main loop
-- Check `C_ZP.asm` before allocating any new ZP address; list conflicts rather than auto-assigning
+Layout follows the spec (Section 2.1) exactly. Engine block is fixed; allocate new game variables in the `$58–$FF` area only.
+
+| Range | Label(s) | Purpose | Phase |
+|-------|----------|---------|-------|
+| `$02–$03` | `ZP.MapPtr` | Map ring buffer pointer | 4 |
+| `$04–$05` | `ZP.ObjPtr` | Active object data pointer | 5 |
+| `$06–$07` | `ZP.Scratch` | General scratch 16-bit pointer | all |
+| `$08–$0B` | `ZP.CamXHi/Lo, CamYHi/Lo` | Camera world position | 3 |
+| `$0C–$0F` | `ZP.FineX/Y, ScrollFlags, ShiftPhase` | Scroll engine state | 3 |
+| `$10–$1F` | `ZP.SpriteX[16]` | Logical sprite X positions | 2 |
+| `$20–$2F` | `ZP.SpriteY[16]` | Logical sprite Y positions | 2 |
+| `$30` | `ZP.MuxSort` | Multiplexer sort temporary | 2 |
+| `$31` | `ZP.FrameCount` | Frame counter 0–255, wraps | 2 |
+| `$32` | `ZP.NTSCFlag` | 0=PAL, 1=NTSC | 8 |
+| `$33` | `ZP.FrameFlag` | Set by IRQ, consumed by main loop | 1 |
+| `$34–$35` | `ZP.Counter` | 16-bit extended frame counter (MSB, LSB) | 1 |
+| `$36–$3F` | *(reserved)* | Engine expansion | — |
+| `$40–$43` | `ZP.FLDOffsetCur/Tgt, FLDScrollRate, FLDFlags` | FLD parallax (Phase 3 future) | 3 |
+| `$44–$47` | `ZP.Temp0–3` | Single-function temporaries | all |
+| `$48–$4A` | `ZP.TempA/X/Y` | Register save slots | all |
+| `$4B–$52` | `ZP.Vector1–4` | Temporary 16-bit pointers | all |
+| `$53–$54` | `ZP.ColourVector` | Pointer into colour RAM | 3 |
+| `$55–$56` | `ZP.ScreenVector` | Pointer into screen RAM | 3 |
+| `$57` | `ZP.BitCounter1` | Rolling bit counter | all |
+| `$58–$FF` | *(free)* | Game-specific allocation | — |
+
+Check `C_ZP.asm` before adding anything. List address conflicts rather than auto-assigning.
 
 ---
 
