@@ -6,7 +6,7 @@
 BasicUpstart2(Entry)
 * = $0810 "Entry Point"									// $0801 - $080D (13 bytes) Entry point
 	Entry: {
-		jmp STRUCTURE.Initialise						// Jump to Game routines
+		jmp GAME.Initialise								// Jump to Game routines
 	}
 
 * = $0820 "Tables"										// $0810 - $0FFF (2032 bytes)
