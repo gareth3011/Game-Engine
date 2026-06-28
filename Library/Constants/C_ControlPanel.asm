@@ -15,6 +15,9 @@
 // ++++ ENEMIES --------------------------------------------------------------------------------------------------------
 
 // ++++ ANIMATIONS AND SPRITES -----------------------------------------------------------------------------------------
+    .const _MAX_SPRITES         = 16                        // Logical sprite slots available to the multiplexer
+                                                            // Drives ZP.SpriteX/Y array sizes and mux loop counts
+                                                            // Must not exceed 24 (hardware timing limit at 50fps PAL)
 
 // ++++ SCREEN ---------------------------------------------------------------------------------------------------------
 

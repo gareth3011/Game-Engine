@@ -28,8 +28,8 @@
     ShiftPhase:     .byte $00       // $0F      Coarse shift phase (0=first half, 1=second half)
 
 // ++++ SPRITE MULTIPLEXER (Phase 2) -------------------------------------------
-    SpriteX:        .fill 16, 0     // $10-$1F  Logical sprite X positions (16 slots)
-    SpriteY:        .fill 16, 0     // $20-$2F  Logical sprite Y positions (16 slots)
+    SpriteX:        .fill _MAX_SPRITES, 0  // $10-$1F  Logical sprite X positions
+    SpriteY:        .fill _MAX_SPRITES, 0  // $20-$2F  Logical sprite Y positions
 
 // ++++ MULTIPLEXER SORT (Phase 2) ---------------------------------------------
     MuxSort:        .byte $00       // $30      Multiplex insertion-sort temporary

@@ -30,7 +30,7 @@
 	.const _BYTES_PER_CHARACTER = 8
 
 // ++++ MULTIPLEXER ----------------------------------------------------------------------------------------------------
-    .const _NUMBER_SPRITES      = 16
+    // _MAX_SPRITES is in C_ControlPanel.asm (tunable)
     .const _BORDER_OFFSET_X     = 24
     .const _BORDER_OFFSET_Y     = 50
 	.const _SPRITE_HEIGHT    	= 21  					// Unexpanded hardware sprite height, in raster lines
