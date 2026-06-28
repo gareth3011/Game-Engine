@@ -1,0 +1,22 @@
+{
+    // Git
+    "git.enabled": true,
+    "git.detectSubmodules": false,
+    "git.openRepositoryInParentFolders": "never",
+    "git.repositoryScanMaxDepth": 1,
+
+    // KickAssembler extension
+    // Explicit paths prevent the extension returning an empty workspace root
+    "kickassembler.workingDirectory": "${workspaceFolder}",
+    "kickassembler.assemblerJar": "D:\\Development\\C64\\Utilities\\Kick Assembler\\KickAss.jar",
+    "kickassembler.javaRuntime": "java",
+    "kickassembler.outputDirectory": "${workspaceFolder}",
+    "kickassembler.additionalAssemblerParameters": "",
+
+    // File handling
+    "files.eol": "\n",
+    "files.associations": {
+        "*.asm": "kickassembler",
+        "*.inc": "kickassembler"
+    }
+}

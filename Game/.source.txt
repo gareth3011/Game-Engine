@@ -1,4 +1,4 @@
-.namespace STRUCTURE {
+.namespace GAME {
 
 	*=* "Initialise"
     Initialise: {
