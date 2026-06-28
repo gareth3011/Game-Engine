@@ -1,17 +1,20 @@
-//VIC BANK SETUP
-* = $C000 "Screen"			        // $C000 - $C3FF (1024 bytes) Screen and Sprite Pointers
+//VIC BANK SETUP — Bank 3 ($C000-$FFFF)
+// VIC cannot see $D000-$DFFF (I/O blind spot) — never place graphics data there.
 
-* = $C400 "Spare Slot V1"			// $C400 - $CFFF (3072 bytes)
+* = $C000 "Screen A"                            // $C000-$C3FF (1KB) Screen buffer A + sprite pointers at $C3F8
+* = $C400 "Screen B"                            // $C400-$C7FF (1KB) Screen buffer B + sprite pointers at $C7F8
 
-* = $D000 "Sprite Data"                         // $D000 - $DFFF (4096 Bytes) Sprite Frames 64 to 127
+* = $C800 "Sprite Frames 0-31"                 // $C800-$CFFF (2KB) 32 sprite frame slots × 64 bytes
         SPRITEDATA:
-        .import binary "Assets/Sprites/sprites.bin"          
+        .import binary "Assets/Sprites/sprites.bin"
 
-* = $E000 "Character Data"                      // $F000 - $F7FF (2048 Bytes) Character set for 256 characters
+                                                // $D000-$DFFF  I/O BLIND SPOT — VIC reads $00 here
+                                                //              CPU uses normally for VIC/SID/CIA registers
+
+* = $E000 "Character Data A"                   // $E000-$E7FF (2KB) Charset A — world tileset
         CHARDATA:
-        .import binary "Assets/Characters/Chars.bin"  
+        .import binary "Assets/Characters/Chars.bin"
 
-* = $E800 "Spare Slot V2"                       // $E800 - $EFFF (2048 Bytes)
+* = $E800 "Character Data B"                   // $E800-$EFFF (2KB) Charset B — HUD/UI font (reserved)
 
-* = $F000 "IRQ, Utils"		                // $F7FF - $FFF0 (2033 Bytes)
-	
+* = $F000 "Sprite Frames 32-94"                // $F000-$FEFF (4KB) 63 sprite frame slots × 64 bytes (reserved)

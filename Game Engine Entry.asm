@@ -2,7 +2,6 @@
 // Base Template
 //++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++//
     #import "Library/Library Index.asm"							// Global Game Labels, constants and addresses
-	#import "Modules/Debug.asm"							// Border Debug
 
 BasicUpstart2(Entry)
 * = $0810 "Entry Point"									// $0801 - $080D (13 bytes) Entry point

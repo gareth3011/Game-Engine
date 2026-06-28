@@ -2,12 +2,12 @@
 
 	*=* "Initialise"
     Initialise: {
-			jsr IRQ.Initialise					// Initialise the IRQ
-			jsr UTILS.Random.Initialise			// Init the random function
+			jsr IRQ.Initialise							// Initialise the IRQ
+			jsr UTILS.Random.Initialise					// Init the random function
     }
 
-	*=* "Game TitleScreen"
-    TitleScreen: {
+	*=* "Engine Loop"
+    EngineLoop: {
 			lda #$00
 			sta ZP.Counter + 0
 			sta ZP.Counter + 1
@@ -15,22 +15,22 @@
 			sta VIC._BACKGROUND
 			sta VIC._BORDER
 
-    	!TitleLoop:
+    	!engineLoop:
 			debugStart("IRQ1", BLUE)
 
 		!Wait:
 			lda ZP.FrameFlag
-			beq !Wait-              	// Set timing for game loop so that updates happen each frame
+			beq !Wait-              					// Set timing for game loop so that updates happen each frame
 			dec ZP.FrameFlag
 			
-			frameCounter()					// Increment the frame counters
+			frameCounter()								// Increment the frame counters
 	
 			debugEnd()
 
-			jmp !TitleLoop-  
+			jmp !engineLoop-  
     }
 
-        #import "Modules/IRQ.asm"    		// Interrupt routine
-        #import "Modules/Utils.asm"    		// Utils routines
+        #import "Modules/IRQ.asm"    					// Interrupt routine
+        #import "Modules/Utils.asm"    					// Utils routines
 
 }

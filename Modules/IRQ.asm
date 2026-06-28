@@ -17,6 +17,17 @@
 			ora #(_IO_VISIBLE | _RAM_01)				// I/O at $D000, RAM at $A000 and $E000
 			sta VIC._R6510
 
+			// Switch VIC to bank 3 ($C000-$FFFF) via CIA 2 port A
+			lda CIA._CI2PRA
+			and #%11111100
+			ora #_VIC_BANK_3						// %00 = bank 3
+			sta CIA._CI2PRA
+
+			// Screen at $C000 (offset 0 in bank), charset at $E000 (offset $2000 = slot 4)
+			// $D018 = (screen_offset/64) | (charset_offset/1024) = 0 | 8 = $08
+			lda #$08
+			sta VIC._VMCSB
+
 			setIRQ #_IRQ_1_RASTER : #<IRQ.IRQ1 : #>IRQ.IRQ1	// Set raster line and IRQ address
 
 			cli                             			// Enable interrupts

@@ -2,12 +2,32 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Run VICE 64 (Game Entry.prg)",
+      "label": "Build (KickAssembler)",
+      "type": "shell",
+      "command": "java",
+      "args": [
+        "-jar",
+        "D:/Development/C64/Utilities/Kick Assembler/KickAss.jar",
+        "Game Engine Entry.asm",
+        "-odir",
+        "."
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Run VICE 64 (Game Engine Entry.prg)",
       "type": "shell",
       "command": "\"D:/Development/C64/Utilities/Vice/bin/x64sc.exe\"",
       "args": [
         "-autostart",
-        "${workspaceFolder}/Game Entry.prg"
+        "${workspaceFolder}/Game Engine Entry.prg"
       ],
       "options": {
         "cwd": "${workspaceFolder}"
@@ -19,7 +39,7 @@
       "type": "shell",
       "command": "\"D:/Development/C64/Utilities/C64 Debugger/C64Debugger.exe\"",
       "args": [
-        "${workspaceFolder}/Game Entry.prg"
+        "${workspaceFolder}/Game Engine Entry.prg"
       ],
       "options": {
         "cwd": "${workspaceFolder}"

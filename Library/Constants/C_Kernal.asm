@@ -6,9 +6,9 @@
 	.label K_RADDC        	= $E092 	// Additive Constant for RND
 	.label K_RND          	= $E097 	// Random Number Generator
 	.label K_SYS 			= $E12A 	// Perform SYS
-	.label K_SAVE         	= $E156 	// Sets Save Pointers for Basic
+	.label K_BASIC_SAVE   	= $E156 	// Sets Save Pointers for Basic (distinct from KERNAL K_SAVE at $FFD8)
 	.label K_VERIFY 		= $E165		// Load/Verify Flag at $10
-	.label K_LOAD 			= $E168		// Gets Load pointers
+	.label K_BASIC_LOAD   	= $E168 	// Gets Load pointers (distinct from KERNAL K_LOAD at $FFD5)
 
     .label K_WAIT_KEY     	= $F142 	// Wait for key
     .label K_SCINIT       	= $FF81 	// Input: – Output: – Used registers: A, X, Y
