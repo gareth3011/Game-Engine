@@ -15,7 +15,7 @@ BasicUpstart2(Entry)
 * = $1000 "Music and SFX"				        		// $1000 - $2FFF (8192 bytes)
 
 * = $3000 "Code"                       			        // $3000 - $7FFF (20480 Bytes)
-	#import "Game Engine Structure.asm"						// Main Game loop
+	#import "Game/Game_Init.asm"							// Main Game loop
 
 * = $C000
 	#import "Engine/VIC_Bank.asm"     					// Asset data
