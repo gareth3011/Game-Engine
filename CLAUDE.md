@@ -75,6 +75,51 @@ If a referenced file cannot be opened, output a `MISSING_FILES:` list and stop u
 
 ---
 
+## Reference Library — `D:\Development\Reference\C64\`
+
+Always check here before implementing any hardware-touching code.
+
+### Articles — Graphics (`Articles\Graphics\`)
+
+| File | Contents |
+|------|----------|
+| `VIC II by CHristian Bauer.txt` | **Definitive VIC-II reference** — bad lines, timing diagrams, all registers, sprite DMA, border tricks. Primary reference for any VIC work. |
+| `Vic PAL-Timing Schemes Marko Makela.txt` | Cycle-accurate PAL timing diagrams for normal, bad, and overscan lines with/without sprites. Essential for stable raster and IRQ timing. |
+| `paltiming.txt` | Visual ASCII timing diagrams for every PAL scan line type. Shows CPU cycles stolen by bad lines (43 cycles) and sprite DMA. |
+| `Covert Bitops - Sprite Multiplexing.txt` | Complete multiplexer tutorial by Cadaver/Lasse Öörni — sorting algorithms (bubble, insertion/Ocean, radix), IRQ code patterns, double-buffering, flicker prevention. Phase 2 primary reference. |
+| `Covert Bitops - MultiDirectional Scrolling.txt` | Scroll engine implementation by Cadaver. Phase 3 reference. |
+| `c64_vic.txt` | VIC register reference. |
+| `vic_article.txt` | Additional VIC-II article. |
+| `The Quest for the Fast Collision Check.txt` | Collision detection techniques. Phase 6 reference. |
+
+### Key Books (`Books\`)
+
+| File | Contents |
+|------|----------|
+| `C64 Programmer's Reference Guide.pdf` | Official Commodore reference — hardware registers, memory map, KERNAL. |
+| `Mapping the Commodore 64.pdf` | Complete memory map with every address documented. |
+| `Machine Language for the Commodore 64 and Other Commodore Computers.pdf` | Butterfield — practical ML programming guide. |
+| `Advanced 6502 programming.pdf` | Advanced techniques, optimisation. |
+
+### Articles — C=64 Hacking Series (`Articles\C=64 Hacking Series\`)
+
+21 issues of technical C64 hacking articles (1992–2002). Covers IRQ techniques, raster tricks, hardware exploits.
+
+### Root Level
+
+| File | Contents |
+|------|----------|
+| `VIC Registers.md` | Quick VIC register reference. |
+| `Vic Timing Christian Bauer.pdf` | PDF version of the Bauer VIC-II timing document. |
+| `6510 Assembly Instructions.pdf` | Instruction set with cycle counts. |
+| `KickAssembler.pdf` | Full KickAssembler manual. |
+
+### Codebase64 Export (`Codebase 64\`)
+
+Local export of codebase64.org articles and books (2019). If web access fails, check here first.
+
+---
+
 ## Memory Map
 
 ```
